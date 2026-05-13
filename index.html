@@ -715,26 +715,34 @@ function startGame(){
 }
 
 let menuShown=false;
+let selectedDifficulty='normal';
+
 document.querySelectorAll('.diffBtn').forEach(btn=>{
-  btn.addEventListener('click',()=>{
+  btn.addEventListener('click',function(){
     document.querySelectorAll('.diffBtn').forEach(b=>b.classList.remove('active'));
-    btn.classList.add('active');
-    difficulty=btn.dataset.diff;
+    this.classList.add('active');
+    selectedDifficulty=this.dataset.diff;
+    difficulty=selectedDifficulty;
   });
 });
+
 document.addEventListener('mousedown', unlockJumpscareAudio, {once:true});
 document.addEventListener('keydown', unlockJumpscareAudio, {once:true});
-document.getElementById('startBtn').addEventListener('click',()=>{
+
+document.getElementById('startBtn').addEventListener('click',function(){
   if(!menuShown){
+    // First click: show difficulty menu
     document.getElementById('diffMenu').style.display='flex';
-    document.getElementById('startBtn').textContent='START';
+    this.textContent='START';
     menuShown=true;
   } else {
-    document.getElementById('diffMenu').style.display='none';
+    // Second click: start game with selected difficulty
+    difficulty=selectedDifficulty;
     unlockJumpscareAudio();
     startGame();
   }
 });
+
 init();
 </script>
 </body>
